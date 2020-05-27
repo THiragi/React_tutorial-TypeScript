@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
@@ -8,7 +8,7 @@ type SquareProps = {
     onClick: () => void;
 }
 
-function Square(props: SquareProps) {
+const Square = (props: SquareProps) => {
     return (
         <button 
             className="square"
@@ -25,34 +25,33 @@ type BoardProps = {
     onClick: (i: number) => void;
 }
 
-
-class Board extends React.Component<BoardProps> {
-    renderSquare(i: number) {
-        return <Square 
-            key={i}
-            value={this.props.squares[i]} 
-            onClick={() => this.props.onClick(i)}
-        />;
-    }
-  
-    render() {
-        // まず0~8の連番の配列を生成
-        let nums: number[] = [...Array(9)].map((_,i) => i);
-        // 配列の中身を3要素ごとに分割
-        let sqrSet: number[][] = chunk(nums, 3);
-        // map()で1行3列のマス目をレンダリングしていく
+const Board = (props: BoardProps) => {
+    const renderSquare = (i: number) => {
         return (
-            <div>
-                {sqrSet.map((v, i) => {
-                    return (
-                        <div key={i} className="board-row">
-                            {v.map( n => this.renderSquare(n))}
-                        </div>
-                    );
-                })}
-            </div>
+            <Square 
+                key={i}
+                value={props.squares[i]}
+                onClick={() => props.onClick(i)}
+            />
         );
     }
+    // まず0~8の連番の配列を生成
+    let nums: number[] = [...Array(9)].map((_,i) => i);
+    // 配列の中身を3要素ごとに分割
+    let sqrSet: number[][] = chunk(nums, 3);
+    // map()で1行3列のマス目をレンダリングしていく
+    return (
+        <div>
+            {sqrSet.map((v, i) => {
+                return (
+                    <div key={i} className="board-row">
+                        {v.map( n => renderSquare(n))}
+                    </div>
+                );
+            })}
+        </div>
+    );
+
 }
 
 type GameProps = {
@@ -69,6 +68,47 @@ type GameState = {
     stepNumber: number,
     xIsNext: boolean,
 }
+
+// const NewGame = () => {
+//     const [history, setHistory] = useState(
+//         [{
+//             squares: Array(9).fill(''),
+//             location: [0,0]
+//         }]
+//     );
+//     const [stepNum, setStepNum] = useState(0);
+//     const [xIsNext, setXIsNext] = useState(true);
+
+//     const handleClick = (i: number) => {
+//         const histories = history.slice(0, stepNum + 1);
+//         const current = histories[histories.length - 1];
+//         const squares = current.squares.slice();
+//         if (calculateWinner(squares) || squares[i]) {
+//             return;
+//         }
+//         squares[i] = xIsNext ? 'X' : 'O';
+        
+//         const col = Math.floor(i / 3) + 1;
+//         const row = (i % 3) + 1;
+
+//         setHistory(histories.concat([{
+//             squares: squares,
+//             location: [col, row]
+//         }]));
+//         setStepNum(histories.length);
+//         setXIsNext(!xIsNext);
+//     }
+
+//     const jumpTo = (step: number) => {
+//         setStepNum(step);
+//         setXIsNext((step % 2) === 0);
+//     }
+//     const current = history[stepNum];
+//     const winner = calculateWinner(current.squares);
+//     return (
+
+//     );
+// }
 
 class Game extends React.Component<GameProps, GameState> {
     constructor(props: GameProps) {
