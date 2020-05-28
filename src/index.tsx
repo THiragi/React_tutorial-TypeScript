@@ -51,16 +51,22 @@ const Board: React.FC<BoardProps> = ({squares, onClick}) => {
     );
 }
 
+type GameHistory = {
+    squares: string[],
+    location: [number, number]
+}
+
+const initialGame: GameHistory[] = [
+    {
+        squares: Array(9).fill(''),
+        location: [0,0]
+    }
+]
 
 const Game: React.FC = () => {
-    const [history, setHistory] = useState(
-        [{
-            squares: Array(9).fill(''),
-            location: [0,0]
-        }]
-    );
-    const [stepNum, setStepNum] = useState(0);
-    const [xIsNext, setXIsNext] = useState(true);
+    const [history, setHistory] = useState(initialGame);
+    const [stepNum, setStepNum] = useState<number>(0);
+    const [xIsNext, setXIsNext] = useState<boolean>(true);
 
     const handleClick = (i: number) => {
         const histories = history.slice(0, stepNum + 1);
