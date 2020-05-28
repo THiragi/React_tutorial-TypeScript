@@ -3,35 +3,33 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 type SquareProps = {
-    key: number;
     value: string;
     onClick: () => void;
 }
 
-const Square = (props: SquareProps) => {
+const Square: React.FC<SquareProps> = ({value, onClick}) => {
     return (
         <button 
             className="square"
-            onClick={() => props.onClick()}
+            onClick={() => onClick()}
         >
-            {props.value}
+            {value}
         </button>
     );
 }
 
-  
 type BoardProps = {
     squares: string[];
     onClick: (i: number) => void;
 }
 
-const Board = (props: BoardProps) => {
+const Board: React.FC<BoardProps> = ({squares, onClick}) => {
     const renderSquare = (i: number) => {
         return (
             <Square 
                 key={i}
-                value={props.squares[i]}
-                onClick={() => props.onClick(i)}
+                value={squares[i]}
+                onClick={() => onClick(i)}
             />
         );
     }
@@ -51,11 +49,10 @@ const Board = (props: BoardProps) => {
             })}
         </div>
     );
-
 }
 
 
-const Game = () => {
+const Game: React.FC = () => {
     const [history, setHistory] = useState(
         [{
             squares: Array(9).fill(''),
