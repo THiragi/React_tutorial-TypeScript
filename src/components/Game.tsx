@@ -5,12 +5,12 @@ import Board from './Board';
 import { RootState } from '../rootReducer';
 import { useSelector } from 'react-redux';
 
-const Game: React.FC = () => {
+const Game: React.FC = ():JSX.Element => {
   const { history, stepNum, xIsNext } = useSelector((state: RootState) => state.games);
   const dispatch = useDispatch();
   const current = history[stepNum];
   const winner = calculateWinner(current.squares);
-  const moves = history.map((step, move) => {
+  const moves = history.map((step:any, move: any) => {
       const location = step.location;
       const desc = move ?
           'Go to move #' + move + ' (' + location[0] + ', ' + location[1] + ')':
@@ -26,12 +26,7 @@ const Game: React.FC = () => {
           </li>
       )
   });
-  let status;
-  if (winner) {
-      status = 'Winner: ' + winner;
-  } else {
-      status = 'Next player: ' + (xIsNext ? 'X' :'0');
-  };
+  const status = winner ? 'Winner: ' + winner: 'Next player: ' + (xIsNext ? 'X' :'0'); 
   return (
       <div className="game">
           <div className="game-board">
