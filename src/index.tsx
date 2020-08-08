@@ -8,7 +8,7 @@ type SquareProps = {
     onClick: () => void;
 }
 
-const Square = (props: SquareProps) => {
+const Square = (props: SquareProps): JSX.Element => {
     return (
         <button 
             className="square"
@@ -25,7 +25,7 @@ type BoardProps = {
     onClick: (i: number) => void;
 }
 
-const Board = (props: BoardProps) => {
+const Board = (props: BoardProps): JSX.Element => {
     const renderSquare = (i: number) => {
         return (
             <Square 
@@ -36,9 +36,9 @@ const Board = (props: BoardProps) => {
         );
     }
     // まず0~8の連番の配列を生成
-    let nums: number[] = [...Array(9)].map((_,i) => i);
+    const nums: number[] = [...Array(9)].map((_,i) => i);
     // 配列の中身を3要素ごとに分割
-    let sqrSet: number[][] = chunk(nums, 3);
+    const sqrSet: number[][] = chunk(nums, 3);
     // map()で1行3列のマス目をレンダリングしていく
     return (
         <div>
@@ -55,7 +55,7 @@ const Board = (props: BoardProps) => {
 }
 
 
-const Game = () => {
+const Game = ():JSX.Element => {
     const [history, setHistory] = useState(
         [{
             squares: Array(9).fill(''),
@@ -107,13 +107,10 @@ const Game = () => {
             </li>
         )
     });
-    let status;
-    if (winner) {
-        status = 'Winner: ' + winner;
-    } else {
-        status = 'Next player: ' + (xIsNext ? 'X' :'0');
-    };
+    const status = winner ? 'Winner: ' + winner : 'Next player: ' + (xIsNext ? 'X' :'0') ;
+
     return (
+        
         <div className="game">
             <div className="game-board">
                 <Board 
@@ -147,13 +144,11 @@ function calculateWinner(squares: string[]): string {
         [0,4,8],
         [2,4,6]
     ];
-    for (let i = 0; i < lines.length; i++) {
-        const [a,b,c] = lines[i];
-        if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-            return squares[a];
-        }
-    }
-    return '';
+    const result = lines.find(line => {
+        const [a,b,c] = line;
+        return squares[a] && squares[a] === squares[b] && squares[a] === squares[c];
+      });
+    return result ? squares[result[0]] : '';
 }
 
 function chunk<T extends any[]>(arr: T, size: number) {
