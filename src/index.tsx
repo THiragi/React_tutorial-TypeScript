@@ -65,7 +65,6 @@ const Game = ():JSX.Element => {
     const [stepNum, setStepNum] = useState(0);
     const [xIsNext, setXIsNext] = useState(true);
 
-    console.log(history.slice(0, stepNum + 1));
     const handleClick = (i: number) => {
         const histories = history.slice(0, stepNum + 1);
         const current = histories[histories.length - 1];
@@ -158,11 +157,3 @@ function chunk<T extends any[]>(arr: T, size: number) {
         [] as T[][]
     )
 }
-
-// 1. 履歴内のそれぞれの着手の位置を (col, row) というフォーマットで表示する。
-// 2. 着手履歴のリスト中で現在選択されているアイテムをボールドにする。
-// 3. Board でマス目を並べる部分を、ハードコーディングではなく 2 つのループを使用するように書き換える。
-
-// 4. 着手履歴のリストを昇順・降順いずれでも並べかえられるよう、トグルボタンを追加する。
-// 5. どちらかが勝利した際に、勝利につながった 3 つのマス目をハイライトする。
-// 6. どちらも勝利しなかった場合、結果が引き分けになったというメッセージを表示する。
