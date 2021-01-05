@@ -65,6 +65,7 @@ const Game = ():JSX.Element => {
     const [stepNum, setStepNum] = useState(0);
     const [xIsNext, setXIsNext] = useState(true);
 
+    console.log(history.slice(0, stepNum + 1));
     const handleClick = (i: number) => {
         const histories = history.slice(0, stepNum + 1);
         const current = histories[histories.length - 1];
