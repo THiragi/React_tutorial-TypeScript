@@ -1,23 +1,17 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
-import { handleClick} from '../modules/gamesModule';
+import React from "react";
 
 type Props = {
+  key: number;
   value: string;
-  num: number;
-}
+  onClick: () => void;
+};
 
-const Square: React.FC<Props> = ({value, num}) => {
-  const dispatch = useDispatch();
-
+const Square = (props: Props): JSX.Element => {
   return (
-      <button 
-          className="square"
-          onClick={() => dispatch(handleClick(num))}
-      >
-          {value}
-      </button>
+    <button className="square" onClick={() => props.onClick()}>
+      {props.value}
+    </button>
   );
-}
+};
 
 export default Square;
